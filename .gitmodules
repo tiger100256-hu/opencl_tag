@@ -1,0 +1,3 @@
+[submodule "thirdparty/opencl-intercept-layer"]
+	path = thirdparty/opencl-intercept-layer
+	url = https://github.com/tiger100256-hu/opencl-intercept-layer.git
