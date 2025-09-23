@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(opencl_tag_project)
+project(opencl_tag)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -14,7 +14,7 @@ else()
 endif()
 
 # Add executable
-add_executable(user_event_example test.cpp)
+add_executable(user_event_example test/test.cpp)
 # Link OpenCL
 target_include_directories(user_event_example PRIVATE ${OpenCL_INCLUDE_DIRS})
 target_link_libraries(user_event_example PRIVATE OpenCL)
@@ -23,19 +23,14 @@ add_dependencies(user_event_example opencl-intercept-layer)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 CONFIG REQUIRED)
 add_subdirectory(thirdparty)
-pybind11_add_module(opencl_tag opencl_tag.cpp)
-target_include_directories(opencl_tag PRIVATE ${OpenCL_INCLUDE_DIRS})
-target_link_libraries(opencl_tag PRIVATE OpenCL)
-add_dependencies(opencl_tag opencl-intercept-layer)
+pybind11_add_module(cl_tag src/opencl_tag.cpp)
+target_include_directories(cl_tag PRIVATE ${OpenCL_INCLUDE_DIRS})
+target_link_libraries(cl_tag PRIVATE OpenCL)
+add_dependencies(cl_tag opencl-intercept-layer)
 
-set_target_properties(opencl_tag PROPERTIES
-	   LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/opencl_tag
-	   LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/opencl_tag
-	   LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/opencl_tag)
-
-
-
-# Install the module
-install(TARGETS opencl_tag LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}/opencl_tag")
+set_target_properties(cl_tag PROPERTIES
+	   LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/cl_tag
+	   LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/cl_tag
+	   LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/cl_tag)
 
 

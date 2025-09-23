@@ -7,6 +7,13 @@ from pathlib import Path
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
+#from wheel.bdist_wheel import bdist_wheel
+from setuptools.command.build_py import build_py as _build_py    
+
+class build_ext_first(_build_py):
+    def run(self):
+        self.run_command("build_ext")
+        return super().run()
 
 # A custom build extension for CMake.
 class CMakeBuild(build_ext):
@@ -40,10 +47,12 @@ setup(
     description='add custom event in opencl-intercept-layer',
     author='Your Name',
     author_email='your.email@example.com',
+    ext_modules=[Extension('cl_tag', sources=[])],
+    cmdclass={'build_ext': CMakeBuild, "build_py": build_ext_first},
     packages=['opencl_tag'],
-    package_data={'opencl_tag': ['opencl_tag.*']},
-    ext_modules=[Extension('opencl_tag', sources=[])],
-    cmdclass={'build_ext': CMakeBuild},
+    package_dir={"opencl_tag": "cl_tag"},
+    package_data={'opencl_tag': ['*.pyd', '*.so']},
+    include_package_data=True,
     zip_safe=False,
 )
 

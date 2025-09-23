@@ -5,7 +5,7 @@
 // pybind11 module
 namespace py = pybind11;
 
-PYBIND11_MODULE(opencl_tag, m) {
+PYBIND11_MODULE(cl_tag, m) {
     py::class_<OPENCL_TAG>(m, "OPENCL_TAG")
         .def(py::init<>())
         .def("tag", &OPENCL_TAG::tag);

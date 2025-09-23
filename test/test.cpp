@@ -1,6 +1,6 @@
 #include <CL/cl.h>
 #include <iostream>
-#include "opencl_tag.hpp"
+#include "../src/opencl_tag.hpp"
 #include <chrono>
 #include <iostream>
 #include <thread>

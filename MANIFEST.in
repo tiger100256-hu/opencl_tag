@@ -1,0 +1,2 @@
+include cl_tag/*.so
+include cl_tag/*.pyd
