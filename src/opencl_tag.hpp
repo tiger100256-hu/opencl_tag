@@ -33,6 +33,11 @@ private:
 };
 class OPENCL_TAG {
 public:
+#if defined(CLINTERCEPT_HIGH_RESOLUTON_CLOCK)
+    using clock = std::chrono::high_resolution_clock;
+#else
+    using clock = std::chrono::steady_clock;
+#endif
     void tag(std::string tag_name) {
         static std::mutex myMutex;
         static OPENCL_TAG_IMP imp;
@@ -42,14 +47,14 @@ public:
     void tag_duration(std::string tag_name, int flag = 0) {
         static std::mutex myMutex;
         static OPENCL_TAG_IMP imp;
-        static std::map<std::string, std::chrono::time_point<std::chrono::high_resolution_clock>> duration_map;
+        static std::map<std::string, std::chrono::time_point<clock>> duration_map;
         std::lock_guard<std::mutex> lock(myMutex);
         if (flag == 0) {
-            duration_map[tag_name] = std::chrono::high_resolution_clock::now();
+            duration_map[tag_name] = clock::now();
         } else {
             auto it = duration_map.find(tag_name);
             if (it != duration_map.end()) {
-                auto dur =  std::chrono::high_resolution_clock::now() - it->second;
+                auto dur =  clock::now() - it->second;
                 auto us_duration = std::chrono::duration_cast<std::chrono::microseconds>(dur);
                 std::string new_tag_name = "duration:" + std::to_string(us_duration.count()) + ":" + tag_name ;
                 imp.tag(new_tag_name);
