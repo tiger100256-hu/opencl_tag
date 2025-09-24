@@ -1,9 +1,8 @@
 #include <CL/cl.h>
 #include <iostream>
-#include "../src/opencl_tag.hpp"
 #include <chrono>
-#include <iostream>
 #include <thread>
+#include "../src/opencl_tag.hpp"
 int main() {
     for (int i = 0; i < 10; i++) {
 	    OPENCL_TAG test;
@@ -13,5 +12,9 @@ int main() {
 	    std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	    test.tag("test3");
 	    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+	    test.tag_duration("test4");
+	    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	    test.tag_duration("test4", 1);
     }
+    return 0;
 }

@@ -39,6 +39,24 @@ public:
         std::lock_guard<std::mutex> lock(myMutex);
         imp.tag(tag_name);
     }
+    void tag_duration(std::string tag_name, int flag = 0) {
+        static std::mutex myMutex;
+        static OPENCL_TAG_IMP imp;
+        static std::map<std::string, std::chrono::time_point<std::chrono::high_resolution_clock>> duration_map;
+        std::lock_guard<std::mutex> lock(myMutex);
+        if (flag == 0) {
+            duration_map[tag_name] = std::chrono::high_resolution_clock::now();
+        } else {
+            auto it = duration_map.find(tag_name);
+            if (it != duration_map.end()) {
+                auto dur =  std::chrono::high_resolution_clock::now() - it->second;
+                auto us_duration = std::chrono::duration_cast<std::chrono::microseconds>(dur);
+                std::string new_tag_name = "duration:" + std::to_string(us_duration.count()) + ":" + tag_name ;
+                imp.tag(new_tag_name);
+                duration_map.erase(it);
+            }
+        }
+    }
 };
 
 #endif /* _OPENCL_TAG_H */
