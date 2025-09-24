@@ -28,7 +28,7 @@ class CMakeBuild(build_ext):
         build_args = []
 
         if sys.platform == "win32":
-            cmake_args += ["-T", "ClangCl"] # Or "MSVC"
+            #cmake_args += ["-T", "ClangCl"] # Or "MSVC"
             build_args += ["--config", "Release"]
 
         if not os.path.exists(self.build_temp):
