@@ -15,6 +15,9 @@ int main() {
 	    test.tag_duration("test4");
 	    std::this_thread::sleep_for(std::chrono::milliseconds(20));
 	    test.tag_duration("test4", 1);
+	    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	    AUTO_OPENCL_TAG auto_tag("test5");
+	    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     return 0;
 }

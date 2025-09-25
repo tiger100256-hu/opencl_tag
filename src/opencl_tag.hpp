@@ -64,4 +64,16 @@ public:
     }
 };
 
+class AUTO_OPENCL_TAG : public OPENCL_TAG {
+public:
+    AUTO_OPENCL_TAG(std::string tag_name): m_tag_name(tag_name) {
+        tag_duration(tag_name, 0);
+    }
+    ~AUTO_OPENCL_TAG() {
+        tag_duration(m_tag_name, 1);
+    }
+private:
+    std::string m_tag_name;
+};
+
 #endif /* _OPENCL_TAG_H */
